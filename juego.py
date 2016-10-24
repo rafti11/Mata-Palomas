@@ -102,6 +102,8 @@ def main():
         font = pygame.font.SysFont(None, 25)
         text = font.render("Puntuacion: "+str(contador), 1, (255,255,0))
         screen.blit(text,(10,10))
+        text4 = font.render("Tiempo restante: " + str(time) + " s", 1, (255,255,0))
+        screen.blit(text4,(550,10))
         pygame.display.flip()
 
     return 0
