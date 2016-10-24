@@ -37,6 +37,8 @@ def main():
     background_image = load_image('images/fondo.jpg')
     gameover = load_image('images/game.png')
     intro = load_image('images/intro.jpg')
+    sangre = load_image('images/sangre.png')
+    pygame.mixer.music.load('musica/pa.mp3')
     pygame.mouse.set_visible(0)
     contador = 0
     cursorjuego = Cursorjuego()
@@ -47,8 +49,9 @@ def main():
     pajaro.rect.centerx = random.randrange(WIDTH)
     pajaro.rect.centery = random.randrange(400)
 
-    time = 10
+    time = 30
     pygame.time.set_timer(USEREVENT+1, 1000)
+    pygame.time.set_timer(USEREVENT+2, 1000)
     pygame.time.set_timer(USEREVENT+3, 3000)
 
     while True:
@@ -95,8 +98,10 @@ def main():
                     borra.add(pajaro)
                     pajaro.rect.centerx = random.randrange(WIDTH)
                     pajaro.rect.centery = random.randrange(400)
-                    pygame.mixer.music.load('musica/pa.mp3')
-                    pygame.mixer.music.play(0)       
+                    pygame.mixer.music.play(0)
+                    screen.blit(sangre, (pajaro.rect.centerx, pajaro.rect.centery))
+                    pygame.display.update()
+
             
 
         while time==0:
