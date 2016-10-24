@@ -6,6 +6,8 @@ from pygame.mixer import music
 
 WIDTH = 750
 HEIGHT = 500
+empezar = "no"
+
 
 class Cursorjuego(pygame.sprite.Sprite):
     def __init__(self):
@@ -29,10 +31,12 @@ def imagen_cursor(x,y):
      self.image = load_image("images/mira.png", True)
 
 def main():
+    global empezar
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Mata pajaros")
     background_image = load_image('images/fondo.jpg')
     gameover = load_image('images/game.png')
+    intro = load_image('images/intro.jpg')
     contador = 0
     cursorjuego = Cursorjuego()
     borra = pygame.sprite.Group()
@@ -46,6 +50,24 @@ def main():
     pygame.time.set_timer(USEREVENT+1, 1000)
 
     while True:
+        while empezar == "no":
+            if empezar == "no":
+                screen.blit(intro, (0, 0))
+                font2 = pygame.font.SysFont(None, 40)
+                text3 = font2.render("Pulsa cualquier tecla para empezar a jugar", 1, (255,255,0))
+                screen.blit(text3,(80,415))
+                pygame.display.update()
+                
+            for eventos in pygame.event.get():
+                if eventos.type == pygame.KEYDOWN:
+                    empezar ="si"
+
+                    main()
+                    
+                if eventos.type == QUIT:
+                    sys.exit(0)
+
+        
         for eventos in pygame.event.get():
             if eventos.type == QUIT:
                 sys.exit(0)
