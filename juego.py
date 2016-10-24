@@ -37,6 +37,7 @@ def main():
     background_image = load_image('images/fondo.jpg')
     gameover = load_image('images/game.png')
     intro = load_image('images/intro.jpg')
+    pygame.mouse.set_visible(0)
     contador = 0
     cursorjuego = Cursorjuego()
     borra = pygame.sprite.Group()
@@ -48,6 +49,7 @@ def main():
 
     time = 10
     pygame.time.set_timer(USEREVENT+1, 1000)
+    pygame.time.set_timer(USEREVENT+3, 3000)
 
     while True:
         while empezar == "no":
@@ -76,6 +78,12 @@ def main():
                 
                 if time > 0:
                     time -= 1
+            
+            if eventos.type == USEREVENT+3:
+                borra.remove(pajaro)
+                borra.add(pajaro)
+                pajaro.rect.centerx = random.randrange(WIDTH)
+                pajaro.rect.centery = random.randrange(400)
 
             
             if eventos.type == pygame.MOUSEBUTTONDOWN and pajaro.rect.collidepoint(pygame.mouse.get_pos()):
@@ -109,14 +117,9 @@ def main():
                 if eventos.type == QUIT:
                     sys.exit(0)
 
-                
-
-
 
         screen.blit(background_image, (0, 0))
         borra.draw(screen)
-        
-      
         x,y = pygame.mouse.get_pos()
         x -= cursorjuego.image.get_width() / 2
         y -= cursorjuego.image.get_height() / 2
