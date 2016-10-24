@@ -20,7 +20,6 @@ class Pajaro(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-
 def load_image(filename, transparent=False):
     image = pygame.image.load(filename)
     return image
@@ -42,11 +41,20 @@ def main():
     pajaro.rect.centerx = random.randrange(WIDTH)
     pajaro.rect.centery = random.randrange(400)
 
+    time = 10
+    pygame.time.set_timer(USEREVENT+1, 1000)
+    time2 = time > 0
+
     while True:
         for eventos in pygame.event.get():
             if eventos.type == QUIT:
                 sys.exit(0)
+            if eventos.type == USEREVENT+1:
+                
+                if time > 0:
+                    time -= 1
 
+            
             if eventos.type == pygame.MOUSEBUTTONDOWN and pajaro.rect.collidepoint(pygame.mouse.get_pos()):
 
                 for elimina in borra:
@@ -55,11 +63,29 @@ def main():
                     contador+=100
                     borra.add(pajaro)
                     pajaro.rect.centerx = random.randrange(WIDTH)
-                    pajaro.rect.centery = random.randrange(400)
+                    pajaro.rect.centery = random.randrange(400)                 
+            
+
+        while time==0:
+            if time == 0:
+            
+                borra.remove(pajaro)
+                font2 = pygame.font.SysFont(None, 25)
+                text2 = font2.render("Puntuacion: "+str(contador), 1, (255,255,0))
+                screen.blit(text2,(50,50))
+                pygame.display.update()
+            for eventos in pygame.event.get():
+                if eventos.type == pygame.MOUSEBUTTONDOWN:
+                    main()
+
+                
+
 
 
         screen.blit(background_image, (0, 0))
         borra.draw(screen)
+        
+      
         x,y = pygame.mouse.get_pos()
         x -= cursorjuego.image.get_width() / 2
         y -= cursorjuego.image.get_height() / 2
