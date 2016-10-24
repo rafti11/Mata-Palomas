@@ -2,6 +2,7 @@ import sys, pygame
 from pygame.locals import *
 import time
 import random
+from pygame.mixer import music
 
 WIDTH = 750
 HEIGHT = 500
@@ -31,7 +32,7 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Mata pajaros")
     background_image = load_image('images/fondo.jpg')
-
+    gameover = load_image('images/game.png')
     contador = 0
     cursorjuego = Cursorjuego()
     borra = pygame.sprite.Group()
@@ -43,12 +44,12 @@ def main():
 
     time = 10
     pygame.time.set_timer(USEREVENT+1, 1000)
-    time2 = time > 0
 
     while True:
         for eventos in pygame.event.get():
             if eventos.type == QUIT:
                 sys.exit(0)
+
             if eventos.type == USEREVENT+1:
                 
                 if time > 0:
@@ -63,20 +64,28 @@ def main():
                     contador+=100
                     borra.add(pajaro)
                     pajaro.rect.centerx = random.randrange(WIDTH)
-                    pajaro.rect.centery = random.randrange(400)                 
+                    pajaro.rect.centery = random.randrange(400)
+                    pygame.mixer.music.load('musica/pa.mp3')
+                    pygame.mixer.music.play(0)       
             
 
         while time==0:
             if time == 0:
             
                 borra.remove(pajaro)
-                font2 = pygame.font.SysFont(None, 25)
-                text2 = font2.render("Puntuacion: "+str(contador), 1, (255,255,0))
-                screen.blit(text2,(50,50))
+                screen.blit(gameover, (0, 0))
+                font2 = pygame.font.SysFont(None, 40)
+                text2 = font2.render("Tu puntuacion es: "+str(contador), 1, (255,255,0))
+                screen.blit(text2,(100,50))
+                text3 = font2.render("Pulsa cualquier tecla para volver a jugar", 1, (255,255,0))
+                screen.blit(text3,(100,415))
                 pygame.display.update()
+                
             for eventos in pygame.event.get():
-                if eventos.type == pygame.MOUSEBUTTONDOWN:
+                if eventos.type == pygame.KEYDOWN:
                     main()
+                if eventos.type == QUIT:
+                    sys.exit(0)
 
                 
 
